@@ -32,6 +32,7 @@ jobs:
         run: |
           CURRENT_DIR=`pwd`
           MERGE_BASE=`git show-branch --merge-base origin/${TARGET_BRANCH} HEAD`
+          git diff ${MERGE_BASE} HEAD --diff-filter=AM --name-only
           for FILE in $(git diff ${MERGE_BASE} HEAD --diff-filter=AM --name-only -- "*.py") ; do
             cd $(dirname ${FILE}); cd ../
             RES=`\find . -name "*.yaml" -maxdepth 1 2> /dev/null`
