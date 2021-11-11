@@ -49,3 +49,24 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+      - name: Package
+        if: github.event.pull_request.merged == true # マージの時だけ実行されるように
+        env:
+          TZ: 'Asia/Tokyo'
+        run: |
+          # Set variables
+          DATE=`date +"%Y%m%d"`
+          # cloudformation package
+          CURRENT_DIR=`pwd`
+          for FILE in $(git diff HEAD^..HEAD --diff-filter=AM --name-only -- "*app.py") ; do
+            cd $(dirname ${FILE}); cd ../
+            RES=`\find . -name "*.yaml" -maxdepth 1 2> /dev/null`
+            if [ -n "$RES" ]; then
+              echo "package done"
+              cd $CURRENT_DIR
+            elif [ -z "$RES" ]; then
+              echo "template.yaml is nothing"
+              cd $CURRENT_DIR
+            fi
+          done
