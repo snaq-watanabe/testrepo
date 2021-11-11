@@ -59,6 +59,7 @@ jobs:
           DATE=`date +"%Y%m%d"`
           # cloudformation package
           CURRENT_DIR=`pwd`
+          git diff HEAD^..HEAD --diff-filter=AM --name-only
           for FILE in $(git diff HEAD^..HEAD --diff-filter=AM --name-only -- "*app.py") ; do
             cd $(dirname ${FILE}); cd ../
             RES=`\find . -name "*.yaml" -maxdepth 1 2> /dev/null`
