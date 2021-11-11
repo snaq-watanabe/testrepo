@@ -2,6 +2,8 @@ name: test
 
 # Controls when the workflow will run
 on:
+  push:
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -49,7 +51,7 @@ jobs:
           echo test, and deploy your project.
 
       - name: Package
-        if: github.event.pull_request.merged == true # マージの時だけ実行されるように
+        if: contains(github.event_name, 'push') # pushの時だけ実行されるように
         env:
           TZ: 'Asia/Tokyo'
         run: |
