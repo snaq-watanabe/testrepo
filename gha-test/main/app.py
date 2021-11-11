@@ -1,2 +1,3 @@
 def main():
+    # コメント
     pass
